@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,6 +23,15 @@ public class ExpenseCategoryServiceImpl implements ExpenseCategoryService {
 
     private final ExpenseCategoryRepository expenseCategoryRepository;
     private final WorkshopExpenseLineRepository workshopExpenseLineRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ExpenseCategoryResponse> findAll(Boolean active) {
+        List<ExpenseCategoryEntity> categories = active == null
+                ? expenseCategoryRepository.findAllByOrderByNameAsc()
+                : expenseCategoryRepository.findByActiveOrderByNameAsc(active);
+        return categories.stream().map(ExpenseCategoryResponse::fromEntity).toList();
+    }
 
     @Override
     @Transactional

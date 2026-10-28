@@ -4,9 +4,12 @@ import com.urbantransport.finance.dto.CreateExpenseCategoryRequest;
 import com.urbantransport.finance.dto.ExpenseCategoryResponse;
 import com.urbantransport.finance.dto.UpdateExpenseCategoryRequest;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ExpenseCategoryService {
+
+    List<ExpenseCategoryResponse> findAll(Boolean active);
 
     ExpenseCategoryResponse create(CreateExpenseCategoryRequest request);
 
